@@ -90,4 +90,101 @@
 
 ## ライセンス
 
-このプロジェクトはMITライセンスの下で公開されています。
+このプロジェクトはMITライセンスの下で公開されています。  
+
+
+---
+
+# OpenAI API Proxy Server
+
+This project functions as a proxy server for the OpenAI API, tracking and recording token usage.
+
+## Features
+
+- Proxying requests to OpenAI API
+- Tracking and logging token usage (InfluxDB and SQLite)
+- API rate limiting per user
+- Exporting Prometheus metrics
+- Retrieving usage history per user
+
+## Requirements
+
+- Go 1.16 or higher
+- SQLite3
+- InfluxDB (optional, for logging usage)
+
+## Setup
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/yourusername/openai-api-proxy.git
+   cd openai-api-proxy
+   ```
+
+2. Install dependencies:
+
+   ```
+   go mod tidy
+   ```
+
+3. Create a `.env` file and set the necessary environment variables:
+
+   ```
+   cp .env.example .env
+   ```
+
+   Edit the `.env` file and input the required information.
+
+4. Build the program:
+
+   ```
+   go build -o proxy-server
+   ```
+
+## Usage
+
+1. Start the proxy server:
+
+   ```
+   ./proxy-server
+   ```
+
+2. Send requests from the client to the proxy server. For example:
+
+   ```
+   curl -X POST "http://localhost:8080/v1/chat/completions" \
+        -H "Content-Type: application/json" \
+        -H "Authorization: Bearer YOUR_API_KEY" \
+        -H "X-User-ID: user123" \
+        -d '{
+          "model": "gpt-3.5-turbo",
+          "messages": [{"role": "user", "content": "Hello!"}]
+        }'
+   ```
+
+3. To check usage history:
+
+   ```
+   curl "http://localhost:8080/usage?user_id=user123"
+   ```
+
+4. To check Prometheus metrics:
+
+   ```
+   curl "http://localhost:8080/metrics"
+   ```
+
+## Configuration
+
+Use environment variables for configuration. These can be set in the `.env` file or as system environment variables:
+
+- `OPENAI_API_KEY`: OpenAI API key
+- `PROXY_TARGET`: URL to proxy to (usually `https://api.openai.com`)
+- `INFLUXDB_URL`: InfluxDB URL
+- `MODEL_NAME`: Default AI model name to use
+- `PORT`: Server port number (default is 8080)
+
+## License
+
+This project is released under the MIT License.
