@@ -1,4 +1,4 @@
-# OpenAI API プロキシサーバー
+# OpenAI API トークン利用量解析プロキシサーバー
 
 このプロジェクトは、OpenAI APIのプロキシサーバーとして機能し、トークン使用量の追跡と記録を行います。
 
@@ -95,7 +95,7 @@
 
 ---
 
-# OpenAI API Proxy Server
+# OpenAI API Proxy & Token Usage Analysis Server
 
 This project functions as a proxy server for the OpenAI API, tracking and recording token usage.
 
